@@ -1,0 +1,38 @@
+package com.sandeepsas.keam360;
+
+public class DatabaseHelper extends SQLiteOpenHelper {
+    private Context mycontext;
+
+    //private String DB_PATH = mycontext.getApplicationContext().getPackageName()+"/databases/";
+    private static String DB_NAME = "(datbasename).sqlite";//the extension may be .sqlite or .db
+    public SQLiteDatabase myDataBase;
+    /*private String DB_PATH = "/data/data/"
+                        + mycontext.getApplicationContext().getPackageName()
+                        + "/databases/";*/
+
+    public DataBaseHelper(Context context) throws IOException {
+        super(context,DB_NAME,null,1);
+        this.mycontext=context;
+        boolean dbexist = checkdatabase();
+        if (dbexist) {
+            //System.out.println("Database exists");
+            opendatabase(); 
+        } else {
+            System.out.println("Database doesn't exist");
+            createdatabase();
+        }
+    }
+
+    public void createdatabase() throws IOException {
+        boolean dbexist = checkdatabase();
+        if(dbexist) {
+            //System.out.println(" Database exists.");
+        } else {
+            this.getReadableDatabase();
+            try {
+                copydatabase();
+            } catch(IOException e) {
+                throw new Error("Error copying database");
+            }
+        }
+    }   

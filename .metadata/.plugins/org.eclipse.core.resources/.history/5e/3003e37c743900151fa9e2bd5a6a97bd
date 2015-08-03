@@ -1,0 +1,86 @@
+package com.sandeepsas.keam360;
+
+import java.io.IOException;
+
+import android.app.Activity;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.TextView;
+
+
+public class MainActivity extends Activity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        
+        
+        
+        Button search_button = (Button) findViewById(R.id.button1);
+        search_button.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				
+				setContentView(R.layout.scrolltext);
+				final TextView txt_view2 = (TextView) findViewById(R.id.txtview2);
+				
+				TestAdapter mDbHelper = new TestAdapter(getApplicationContext());        
+				mDbHelper.createDatabase();      
+				mDbHelper.open();
+
+				Cursor C = mDbHelper.getTestData("Cast", "TVE", "G", "SM");
+				int ctr =0;
+				if(C.moveToFirst())
+				{
+					do
+					{
+						ctr++;
+						String branch = C.getString(0);
+						String college = C.getString(1);
+						String type = C.getString(2);
+						String sm = C.getString(3);
+						String ez = C.getString(4);
+						String mu = C.getString(5);
+						String bh = C.getString(6);
+						
+						
+						String temp = (String) txt_view.getText();	
+						txt_view.setText(temp+ctr+" ."+"Branch = "+branch+" , College ="+college+" , Type ="+type+
+								" , SM = " +sm+ " , EZ = "+ez+" , MU =" +mu+ " , BH = "+bh+"\n \n");
+						
+					}while(C.moveToNext());
+				}
+				
+				mDbHelper.close();
+			}
+		});
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+}

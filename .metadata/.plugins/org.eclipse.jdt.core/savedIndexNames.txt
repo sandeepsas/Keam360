@@ -1,0 +1,4 @@
+INDEX VERSION 1.127+E:\Program_Workspaces\Android_WSP\HobbyProject\KEAM360\.metadata\.plugins\org.eclipse.jdt.core
+3217249534.index
+5619494.index
+4214720693.index
